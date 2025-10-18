@@ -24,8 +24,8 @@ export default function VideoPlayer({
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [showControls, setShowControls] = useState(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const progressInterval = useRef<NodeJS.Timeout>();
+  const videoRef = useRef<HTMLDivElement>(null);
+  const progressInterval = useRef<NodeJS.Timeout | null>(null);
   const onProgressRef = useRef(onProgress);
   const onCompleteRef = useRef(onComplete);
 
