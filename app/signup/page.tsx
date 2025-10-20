@@ -1,34 +1,38 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { useAuth } from '@/lib/mock/auth-context';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
-import { BookOpen, Mail, Lock, AlertCircle, TrendingUp, Users, Award } from 'lucide-react';
+import { BookOpen, Mail, Lock, User, AlertCircle, Sparkles, Zap, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-export default function LoginPage() {
+export default function SignupPage() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     setIsLoading(true);
 
-    try {
-      await login(email, password);
-      router.push('/');
-    } catch (err) {
-      setError('Invalid credentials. Try: admin@example.com or john@example.com (any password)');
-    } finally {
-      setIsLoading(false);
-    }
+    // Simulate signup delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    // For prototype, redirect to login
+    alert('Account created successfully! Please login with your credentials.');
+    router.push('/login');
   };
 
   return (
@@ -38,15 +42,15 @@ export default function LoginPage() {
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-600 via-primary-700 to-blue-600 relative overflow-hidden"
+        className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-purple-600 via-primary-600 to-blue-600 relative overflow-hidden"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=800&fit=crop)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1200&h=800&fit=crop)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-600/95 to-blue-600/95" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/95 to-blue-600/95" />
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-center px-16 text-white">
@@ -67,10 +71,10 @@ export default function LoginPage() {
             transition={{ delay: 0.3 }}
           >
             <h1 className="text-5xl font-bold mb-6 leading-tight">
-              Welcome Back to Your Learning Journey
+              Start Your Learning Adventure Today
             </h1>
-            <p className="text-xl text-blue-100 mb-12">
-              Access premium courses, track your progress, and continue building your skills.
+            <p className="text-xl text-purple-100 mb-12">
+              Join thousands of learners and unlock your potential with expert-led courses.
             </p>
           </motion.div>
 
@@ -83,53 +87,52 @@ export default function LoginPage() {
           >
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
-                <TrendingUp className="w-6 h-6" />
+                <Sparkles className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg">Track Your Progress</h3>
-                <p className="text-blue-100">Monitor your learning journey with detailed analytics</p>
+                <h3 className="font-semibold text-lg">Free Trial Available</h3>
+                <p className="text-purple-100">Start learning with our free courses</p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
-                <Users className="w-6 h-6" />
+                <Zap className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg">Learn from Experts</h3>
-                <p className="text-blue-100">Access courses from industry professionals</p>
+                <h3 className="font-semibold text-lg">Instant Access</h3>
+                <p className="text-purple-100">Start learning immediately after signup</p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
-                <Award className="w-6 h-6" />
+                <Shield className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg">Earn Certificates</h3>
-                <p className="text-blue-100">Get recognized for your achievements</p>
+                <h3 className="font-semibold text-lg">Secure & Private</h3>
+                <p className="text-purple-100">Your data is protected and encrypted</p>
               </div>
             </div>
           </motion.div>
 
-          {/* Stats */}
+          {/* Testimonial */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
-            className="flex gap-12 mt-16 pt-12 border-t border-white/20"
+            className="mt-16 pt-12 border-t border-white/20"
           >
-            <div>
-              <div className="text-3xl font-bold">1000+</div>
-              <div className="text-blue-100">Active Students</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold">50+</div>
-              <div className="text-blue-100">Expert Courses</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold">95%</div>
-              <div className="text-blue-100">Success Rate</div>
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                <span className="text-2xl">👨‍💼</span>
+              </div>
+              <div>
+                <p className="text-lg italic mb-2">
+                  "CourseHub transformed my career. The quality of courses is outstanding!"
+                </p>
+                <p className="text-purple-200">- Sarah Johnson, Software Engineer</p>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -143,11 +146,11 @@ export default function LoginPage() {
         <motion.div
           animate={{ rotate: -360 }}
           transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-          className="absolute bottom-10 left-10 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl"
+          className="absolute bottom-10 left-10 w-96 h-96 bg-purple-400/5 rounded-full blur-3xl"
         />
       </motion.div>
 
-      {/* Right Side - Login Form */}
+      {/* Right Side - Signup Form */}
       <motion.div
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -168,26 +171,10 @@ export default function LoginPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Sign In</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
             <p className="text-gray-600 mb-8">
-              Welcome back! Please enter your credentials to continue.
+              Sign up now and start your learning journey for free!
             </p>
-          </motion.div>
-
-          {/* Demo Credentials */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6"
-          >
-            <p className="text-sm font-medium text-blue-900 mb-2">Demo Accounts:</p>
-            <div className="space-y-1 text-xs text-blue-700">
-              <p>Admin: <code className="bg-blue-100 px-1 rounded">admin@example.com</code></p>
-              <p>User: <code className="bg-blue-100 px-1 rounded">john@example.com</code></p>
-              <p>Pending: <code className="bg-blue-100 px-1 rounded">bob@example.com</code></p>
-              <p className="text-blue-600 italic mt-2">Password: any value</p>
-            </div>
           </motion.div>
 
           {/* Error Message */}
@@ -202,14 +189,31 @@ export default function LoginPage() {
             </motion.div>
           )}
 
-          {/* Login Form */}
+          {/* Signup Form */}
           <motion.form
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.4 }}
             onSubmit={handleSubmit}
             className="space-y-5"
           >
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Full Name
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-700 transition-all"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+            </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Email Address
@@ -228,14 +232,9 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Password
-                </label>
-                <a href="#" className="text-sm text-primary-600 hover:text-primary-700">
-                  Forgot password?
-                </a>
-              </div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Password
+              </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
@@ -243,20 +242,43 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-700 transition-all"
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
+                  required
+                  minLength={6}
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Must be at least 6 characters</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Confirm Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-700 transition-all"
+                  placeholder="Confirm your password"
                   required
                 />
               </div>
             </div>
 
-            <div className="flex items-center">
+            <div className="flex items-start">
               <input
                 type="checkbox"
-                id="remember"
-                className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+                id="terms"
+                className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500 mt-1"
+                required
               />
-              <label htmlFor="remember" className="ml-2 text-sm text-gray-700">
-                Remember me for 30 days
+              <label htmlFor="terms" className="ml-2 text-sm text-gray-700">
+                I agree to the{' '}
+                <a href="#" className="text-primary-600 hover:underline">Terms of Service</a>
+                {' '}and{' '}
+                <a href="#" className="text-primary-600 hover:underline">Privacy Policy</a>
               </label>
             </div>
 
@@ -265,7 +287,7 @@ export default function LoginPage() {
               className="w-full py-3"
               disabled={isLoading}
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? 'Creating account...' : 'Create Account'}
             </Button>
           </motion.form>
 
@@ -276,9 +298,9 @@ export default function LoginPage() {
             className="mt-6 text-center"
           >
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
-              <Link href="/signup" className="text-primary-600 hover:text-primary-700 font-medium">
-                Sign up for free
+              Already have an account?{' '}
+              <Link href="/login" className="text-primary-600 hover:text-primary-700 font-medium">
+                Sign in instead
               </Link>
             </p>
           </motion.div>
@@ -290,10 +312,7 @@ export default function LoginPage() {
             className="mt-8 pt-6 border-t border-gray-200"
           >
             <p className="text-xs text-center text-gray-500">
-              By signing in, you agree to our{' '}
-              <a href="#" className="text-primary-600 hover:underline">Terms of Service</a>
-              {' '}and{' '}
-              <a href="#" className="text-primary-600 hover:underline">Privacy Policy</a>
+              🔒 Your information is secure and will never be shared
             </p>
           </motion.div>
         </div>

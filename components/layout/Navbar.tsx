@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/mock/auth-context';
 import { LogOut, User, BookOpen, LayoutDashboard, Bell } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -9,7 +10,15 @@ import { mockNotifications } from '@/lib/mock/data';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const router = useRouter();
   const [showNotifications, setShowNotifications] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    setTimeout(() => {
+      router.push('/');
+    }, 100);
+  };
 
   if (!user) return null;
 
@@ -114,7 +123,7 @@ export default function Navbar() {
               </div>
 
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="p-2 text-gray-700 hover:text-red-600 transition-colors"
                 title="Logout"
               >
